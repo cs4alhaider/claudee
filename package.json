@@ -1,0 +1,35 @@
+{
+  "name": "claudee",
+  "version": "1.0.0",
+  "description": "Interactive terminal launcher for Claude Code — pick a worktree, model, effort, and resume past conversations from a fast, full-width arrow-key wizard.",
+  "type": "commonjs",
+  "bin": {
+    "claudee": "bin/claudee"
+  },
+  "files": [
+    "bin/claudee"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "cli",
+    "tui",
+    "launcher",
+    "git-worktree",
+    "terminal",
+    "wizard"
+  ],
+  "author": "cs4alhaider",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cs4alhaider/claudee.git"
+  },
+  "homepage": "https://github.com/cs4alhaider/claudee#readme",
+  "bugs": {
+    "url": "https://github.com/cs4alhaider/claudee/issues"
+  }
+}
