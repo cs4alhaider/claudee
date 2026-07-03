@@ -67,8 +67,10 @@ Run it with arguments (`claudee -c "fix the bug"`) and it skips the menu entirel
 ## Requirements
 
 - [**Claude Code**](https://claude.com/claude-code) — the `claude` CLI on your `PATH`.
-- **Node.js ≥ 18** (only Node built-ins are used; no packages).
+- **Node.js ≥ 18** — or **[Bun](https://bun.sh)**, which `claudee` auto-detects and prefers for a faster launch (~25–30% quicker startup). Only runtime built-ins are used; no packages.
 - **git** — for worktree features (optional; the tool works fine outside a repo).
+
+> **Runtime:** `claudee` ships a tiny `sh`/JS polyglot shebang — it runs on **Bun if installed, otherwise Node**, with no configuration. Nothing to set up either way.
 
 ---
 
