@@ -149,6 +149,24 @@ State (last model / effort / skip) is stored at `~/.config/claudee/state.json`.
 
 ---
 
+## Project layout
+
+Zero-dependency CommonJS modules — no build step, no bundler. `bin/claudee` is a thin entry point; the implementation is split by concern:
+
+```
+claudee/
+├── bin/claudee     # entry: polyglot shebang · fast-path passthrough · boots the wizard
+└── lib/
+    ├── format.js   # pure text/color helpers + the git-status badge
+    ├── git.js      # git + session-history helpers (worktrees, status, resume list)
+    ├── claude.js   # the `claude` CLI interface: build args, run / dry-run
+    └── wizard.js   # the interactive TUI: state, screens, rendering, key input
+```
+
+The install is a symlink into your `PATH`, so `require('../lib/…')` resolves against the repo — a `git pull` updates everything live, no rebuild.
+
+---
+
 ## Uninstall
 
 ```sh

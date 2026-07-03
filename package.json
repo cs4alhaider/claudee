@@ -7,7 +7,8 @@
     "claudee": "bin/claudee"
   },
   "files": [
-    "bin/claudee"
+    "bin/claudee",
+    "lib/"
   ],
   "engines": {
     "node": ">=18"
