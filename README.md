@@ -43,6 +43,8 @@ Run it with arguments (`claudee -c "fix the bug"`) and it skips the menu entirel
     Model             default
     Effort            default
     Resume            Fix the checkout race  3h ago
+    Fork session      No
+    Open in Cursor    No
     Session name      (none)
 
   → claude --dangerously-skip-permissions --resume 4f1c…
@@ -50,13 +52,28 @@ Run it with arguments (`claudee -c "fix the bug"`) and it skips the menu entirel
   ↑↓ field · ←→ change · Enter launch · Esc back
 ```
 
+**Delete a worktree** — press `d` on an existing one, then a deliberate confirm (default **No**):
+
+```
+  Delete this worktree?
+
+    claude/checkout-fix
+    …/my-app/.worktrees/checkout-fix
+
+  Removes the worktree folder and deletes its branch. This cannot be undone.
+
+    ‹ No ›   Yes
+
+  ←→ choose · Enter confirm · Esc cancel
+```
+
 ---
 
 ## Features
 
-- **Worktree-first.** Launch in the current directory, spin up a **new git worktree** (`claude --worktree`), or jump into an **existing worktree** — launched in place. Existing worktrees can be **renamed** (branch + folder) right from the wizard.
-- **Resume by title.** Instead of a blind "continue last", pick from your recent conversations shown by their **AI-generated title + relative time** (reads `~/.claude/projects`). Maps to `claude --resume <id>` or `-c`.
-- **Grouped options.** Skip-permissions, model, reasoning effort, resume, and session name live on one screen with sensible defaults — accept them all with a single `Enter`, or tweak inline with `←/→`.
+- **Worktree-first.** Launch in the current directory, spin up a **new git worktree** (`claude --worktree`), or jump into an **existing worktree** — launched in place. Manage them without leaving the wizard: **rename** (branch + folder) or **delete** (`d`) — with a deliberate confirm that force-removes dirty worktrees behind a second prompt and cleans up the branch.
+- **Resume by title.** Instead of a blind "continue last", pick from your recent conversations shown by their **AI-generated title + relative time** (reads `~/.claude/projects`). Maps to `claude --resume <id>` or `-c`, and can **fork** into a fresh session (`--fork-session`).
+- **Grouped options.** Skip-permissions, model, reasoning effort, resume, and session name on one screen with sensible defaults — accept them all with a single `Enter`, or tweak inline with `←/→`. Context-aware extras appear only when relevant: **Fork session** (when resuming), **Open in Cursor** (opens the launch directory in the Cursor editor), and **tmux** (new worktree in iTerm2).
 - **Git status at a glance.** The header shows the current repo's state (`✓` clean, `+N` staged, `~N` unstaged); each existing worktree shows its own marker.
 - **Fast passthrough.** `claudee <args>` behaves exactly like `claude --dangerously-skip-permissions <args>`, so your muscle memory and scripts keep working. Subcommands (`claudee auth`, `claudee mcp …`) pass through untouched.
 - **Remembers you.** Persists your last model / effort / skip choice to `~/.config/claudee/state.json`.
@@ -117,7 +134,8 @@ claudee auth            # subcommands pass straight through (no skip-perms)
 | `←` `→` | change the selected value |
 | `Enter` | next step · launch on the final screen |
 | `Tab` | launch immediately with current + default answers |
-| `Esc` | back (quit on the first screen) |
+| `d` | on an existing worktree: delete it (opens a confirm) |
+| `Esc` | back · cancel a confirm (quit on the first screen) |
 | `Ctrl-C` | quit |
 
 ---
@@ -144,8 +162,10 @@ State (last model / effort / skip) is stored at `~/.config/claudee/state.json`.
 
 - **New worktree** → `claude --worktree [name]` (Claude creates the worktree/branch).
 - **Existing worktree** → runs `claude` with its working directory set to that worktree.
-- **Resume** → reads session transcripts under `~/.claude/projects/<slug>/*.jsonl`, extracts each conversation's `ai-title`, and launches `claude --resume <id>` (or `-c` for the most recent).
+- **Resume** → reads session transcripts under `~/.claude/projects/<slug>/*.jsonl`, extracts each conversation's `ai-title`, and launches `claude --resume <id>` (or `-c` for the most recent). **Fork session** adds `--fork-session` so you branch into a new session id.
 - **Rename** → `git branch -m` + `git worktree move`, best-effort with inline error reporting.
+- **Delete** → `git worktree remove` (adds `--force` for dirty worktrees, behind a second confirm) + `git branch -D`, all behind a default-No prompt.
+- **Open in Cursor** → runs `cursor <launch-dir>` detached alongside the launch (no-op if the `cursor` CLI isn't installed).
 
 ---
 
