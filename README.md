@@ -93,6 +93,14 @@ Run it with arguments (`claudee -c "fix the bug"`) and it skips the menu entirel
 
 ## Install
 
+### Homebrew
+
+```sh
+brew install cs4alhaider/tap/claudee
+```
+
+### From source
+
 ```sh
 git clone https://github.com/cs4alhaider/claudee.git
 cd claudee
